@@ -1,5 +1,7 @@
 
 import fs from "fs"
+
+import {promises} from "fs"
 const changeDep=(req,res)=>{
     const depId=req.params.id
     const depName=req.body.name
@@ -26,5 +28,31 @@ const delDep=(req,res)=>{
     res.send("OK")
 
 }
+//importing file data
+//get body using post
+//putting it in array
+//writing it to file back
+const addDep=async (req,res)=>{
+    let depData=JSON.parse(await promises.readFile('./public/emp.json'))
+    console.log(depData)
+    let newDep=req.body
+    depData.push(newDep)
+    await promises.writeFile('./public/emp.json',JSON.stringify(depData))
+    res.send("OK")
+}
 
-export {changeDep,delDep}
+const getDep=async (req,res)=>{
+    let depData=JSON.parse(await promises.readFile('./public/emp.json'))
+    if(depData.length>=1){
+        res.json({
+            "status":"success",
+            "data":depData
+        })
+    }else{
+        res.json({
+            "status":"fail",
+            "message":"no dep data found"
+        })
+    }
+}
+export {changeDep,delDep,addDep,getDep} 
