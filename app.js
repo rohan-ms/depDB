@@ -16,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", Router);
 
 console.log("testing");
+console.log("testing 1");
+console.log("testing 2");
 
 app.listen(5000, () => {
   console.log("started on port 5000");
